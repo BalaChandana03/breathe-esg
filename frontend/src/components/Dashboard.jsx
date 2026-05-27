@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Leaf, AlertTriangle, CheckCircle, RefreshCw, BarChart2, ShieldAlert, Layers, Building } from 'lucide-react';
 
+const API_BASE = import.meta.env.VITE_API_URL || 'https://breathe-esg-production-3a4b.up.railway.app';
+
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
@@ -9,7 +11,7 @@ export default function Dashboard() {
   const fetchAnalytics = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/analytics/');
+      const response = await fetch(`${API_BASE}/api/analytics/`);
       if (!response.ok) {
         throw new Error('Failed to retrieve analytics from server.');
       }
@@ -18,7 +20,7 @@ export default function Dashboard() {
       setError(null);
     } catch (err) {
       console.error(err);
-      setError('Could not connect to Django API. Make sure Django server is running on port 8000.');
+      setError('Could not connect to Django API. Make sure the backend server is running and accessible.');
     } finally {
       setLoading(false);
     }

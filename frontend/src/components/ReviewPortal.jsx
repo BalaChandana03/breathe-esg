@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Upload, HelpCircle, Filter, Edit3, Check, X, FileText, AlertTriangle, ChevronRight, CornerDownRight, History, MapPin, Sparkles, User, Calendar, RefreshCw } from 'lucide-react';
 
+const API_BASE = import.meta.env.VITE_API_URL || 'https://breathe-esg-production-3a4b.up.railway.app';
+
 export default function ReviewPortal() {
   // Records State
   const [records, setRecords] = useState([]);
@@ -41,7 +43,7 @@ export default function ReviewPortal() {
     setLoading(true);
     try {
       // Build query string
-      let url = 'http://127.0.0.1:8000/api/records/';
+      let url = `${API_BASE}/api/records/`;
       const params = [];
       if (filterScope) params.push(`scope=${filterScope}`);
       if (filterSource) params.push(`source_type=${filterSource}`);
@@ -125,7 +127,7 @@ export default function ReviewPortal() {
     formData.append('source_type', uploadSourceType);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/ingestion/upload/', {
+      const response = await fetch(`${API_BASE}/api/ingestion/upload/`, {
         method: 'POST',
         body: formData,
       });
@@ -150,7 +152,7 @@ export default function ReviewPortal() {
   const handleApprove = async (e, recordId) => {
     e.stopPropagation(); // Avoid opening drawer
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/records/${recordId}/approve/`, {
+      const response = await fetch(`${API_BASE}/api/records/${recordId}/approve/`, {
         method: 'POST',
       });
       if (!response.ok) throw new Error('Approval failed.');
@@ -160,7 +162,7 @@ export default function ReviewPortal() {
       
       // If currently open in drawer, update drawer state too
       if (activeDrawerRecord && activeDrawerRecord.id === recordId) {
-        const updatedResponse = await fetch(`http://127.0.0.1:8000/api/records/`);
+        const updatedResponse = await fetch(`${API_BASE}/api/records/`);
         const updatedList = await updatedResponse.json();
         const freshRecord = updatedList.find(r => r.id === recordId);
         setActiveDrawerRecord(freshRecord);
@@ -183,7 +185,7 @@ export default function ReviewPortal() {
       return;
     }
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/records/${rejectingRecord.id}/reject/`, {
+      const response = await fetch(`${API_BASE}/api/records/${rejectingRecord.id}/reject/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ rejection_reason: rejectionReason })
@@ -194,7 +196,7 @@ export default function ReviewPortal() {
       setRecords(prev => prev.map(r => r.id === rejectingRecord.id ? { ...r, status: 'REJECTED', rejection_reason: rejectionReason } : r));
       
       if (activeDrawerRecord && activeDrawerRecord.id === rejectingRecord.id) {
-        const updatedResponse = await fetch(`http://127.0.0.1:8000/api/records/`);
+        const updatedResponse = await fetch(`${API_BASE}/api/records/`);
         const updatedList = await updatedResponse.json();
         const freshRecord = updatedList.find(r => r.id === rejectingRecord.id);
         setActiveDrawerRecord(freshRecord);
@@ -217,7 +219,7 @@ export default function ReviewPortal() {
 
   const submitEdit = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/records/${editingRecord.id}/edit/`, {
+      const response = await fetch(`${API_BASE}/api/records/${editingRecord.id}/edit/`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
