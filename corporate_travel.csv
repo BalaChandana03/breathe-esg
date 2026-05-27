@@ -1,0 +1,6 @@
+Trip ID,Employee Email,Segment Type,Start Date,End Date,Origin,Destination,Cabin Class,Quantity/Distance,Unit,Amount / Spend,Currency
+TRIP-7001,exec@breathe.com,FLIGHT,2026-04-10,2026-04-10,JFK,SFO,BUSINESS,,,1800.00,USD
+TRIP-7002,staff@breathe.com,FLIGHT,2026-04-12,2026-04-13,SFO,LHR,ECONOMY,,,850.00,USD
+TRIP-7001,exec@breathe.com,HOTEL,2026-04-10,2026-04-13,SFO,SFO,STANDARD,,,900.00,USD
+TRIP-7003,auditor@breathe.com,CAR,2026-04-15,2026-04-17,FRA,FRA,,,,250.00,EUR
+TRIP-7004,staff@breathe.com,FLIGHT,2026-04-20,2026-04-20,XYZ,JFK,ECONOMY,,,650.00,USD
