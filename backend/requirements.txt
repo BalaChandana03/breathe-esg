@@ -1,0 +1,6 @@
+django>=4.0
+djangorestframework>=3.14
+django-cors-headers>=3.13
+asgiref
+sqlparse
+gunicorn
